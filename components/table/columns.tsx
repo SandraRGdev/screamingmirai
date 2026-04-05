@@ -7,20 +7,6 @@ import type { CrawlResult } from "@/lib/types";
 
 export const columns: ColumnDef<CrawlResult>[] = [
   {
-    accessorKey: "basePath",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ruta Base" />
-    ),
-    cell: ({ row }) => {
-      const basePath = row.getValue("basePath") as string | null;
-      return (
-        <span className="truncate max-w-[200px] block">
-          {basePath || "/"}
-        </span>
-      );
-    },
-  },
-  {
     accessorKey: "url",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="URL" />

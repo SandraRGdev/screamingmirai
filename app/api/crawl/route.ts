@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
         });
 
         const inlinksMap = new Map<string, number>();
+        const seenUrls = new Set<string>();
 
         for await (const page of crawlGenerator(config)) {
           // Check for abort
@@ -67,26 +68,15 @@ export async function POST(req: NextRequest) {
             return;
           }
 
+          if (seenUrls.has(page.url)) {
+            continue;
+          }
+          seenUrls.add(page.url);
+
           // Track inlinks from discovered internal links
           for (const link of page.internalLinks) {
             inlinksMap.set(link, (inlinksMap.get(link) || 0) + 1);
           }
-
-          // Extract base path for grouping (removes language prefix like /ca/, /en/, etc.)
-          const getBasePath = (url: string): string => {
-            try {
-              const parsed = new URL(url);
-              const pathParts = parsed.pathname.split('/').filter(Boolean);
-              // Remove language prefix if it's a language code
-              const langCodes = ['es', 'ca', 'en', 'fr', 'de', 'it', 'pt'];
-              if (pathParts.length > 0 && langCodes.includes(pathParts[0])) {
-                return pathParts.slice(1).join('/');
-              }
-              return parsed.pathname;
-            } catch {
-              return url;
-            }
-          };
 
           const result: CrawlResult = {
             url: page.url,
@@ -101,7 +91,6 @@ export async function POST(req: NextRequest) {
             esIndexable: isIndexable(page.metaRobots),
             inlinks: inlinksMap.get(page.url) || 0,
             discoveredFrom: null,
-            basePath: getBasePath(page.url),
           };
 
           // Update session

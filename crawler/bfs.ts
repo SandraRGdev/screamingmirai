@@ -111,16 +111,24 @@ export async function* crawlGenerator(
     });
     if (!fetchResult) continue;
 
-    const parsed = parseHtml(fetchResult, item.depth, seedDomain);
+    const finalUrl = normalizeUrl(fetchResult.url);
 
-    // Don't yield the same URL twice
-    if (yielded.has(normalized)) {
-      console.error(`[DUPLICATE] Already yielded: ${normalized}`);
+    // Don't yield the same resolved URL twice.
+    // This catches aliases and redirect targets that collapse to one page.
+    if (yielded.has(finalUrl)) {
+      console.error(`[DUPLICATE] Already yielded final URL: ${finalUrl}`);
       continue;
     }
-    yielded.add(normalized);
 
-    yield parsed;
+    visited.add(finalUrl);
+    yielded.add(finalUrl);
+
+    const parsed = parseHtml(fetchResult, item.depth, seedDomain);
+
+    yield {
+      ...parsed,
+      url: finalUrl,
+    };
 
     console.log(`[CRAWL] Queue size: ${queue.length}, Visited: ${visited.size}, Queued Set: ${queued.size}`);
     for (const link of parsed.internalLinks) {
