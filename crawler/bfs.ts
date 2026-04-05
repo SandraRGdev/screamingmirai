@@ -10,6 +10,7 @@ import {
 import { hybridFetch } from "./hybrid-fetcher";
 import { parseHtml } from "./parser";
 import { fetchRobotsTxt, waitForCrawlDelay } from "./robots";
+import { fetchSitemap } from "./sitemap";
 
 /**
  * BFS crawler as an async generator. Yields ParsedResult for each page.
@@ -35,6 +36,26 @@ export async function* crawlGenerator(
     ? await fetchRobotsTxt(config.seedUrl, config.userAgent)
     : null;
   const crawlDelay = robots?.getCrawlDelay() ?? 0;
+
+  // Seed queue with sitemap URLs (discovered from robots.txt Sitemap: directives)
+  if (robots) {
+    const sitemapUrls = robots.getSitemaps();
+    for (const sitemapUrl of sitemapUrls) {
+      const sitemapResult = await fetchSitemap(sitemapUrl);
+      for (const url of sitemapResult.urls) {
+        const normalized = normalizeUrl(url);
+        if (
+          !queued.has(normalized) &&
+          isSameDomain(normalized, seedDomain) &&
+          !isBlockedExtension(normalized, config.blockedExtensions) &&
+          isSafeUrl(normalized)
+        ) {
+          queued.add(normalized);
+          queue.push({ url: normalized, depth: 0, discoveredFrom: "sitemap" });
+        }
+      }
+    }
+  }
 
   while (queue.length > 0 && visited.size < config.maxPages) {
     if (config.signal?.aborted) return;

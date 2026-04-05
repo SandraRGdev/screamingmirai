@@ -5,7 +5,7 @@
 export interface QueueItem {
   url: string;
   depth: number;
-  discoveredFrom: string | null;
+  discoveredFrom: string | null; // null = seed, "sitemap" = from sitemap.xml, URL = parent page
 }
 
 export interface CrawlerConfig {

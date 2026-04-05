@@ -3,11 +3,13 @@ import robotsParser from "robots-parser";
 export interface RobotsConfig {
   isAllowed: (url: string) => boolean;
   getCrawlDelay: () => number;
+  getSitemaps: () => string[];
 }
 
 const DEFAULT_ROBOTS: RobotsConfig = {
   isAllowed: () => true,
   getCrawlDelay: () => 0,
+  getSitemaps: () => [],
 };
 
 /**
@@ -31,9 +33,13 @@ export async function fetchRobotsTxt(
     const text = await response.text();
     const parser = robotsParser(robotsUrl, text);
 
+    // Extract sitemap URLs from robots.txt Sitemap directives
+    const sitemapUrls = extractSitemapsFromText(text);
+
     return {
       isAllowed: (url: string) => parser.isAllowed(url, userAgent) ?? true,
       getCrawlDelay: () => (parser.getCrawlDelay(userAgent) as number) ?? 0,
+      getSitemaps: () => sitemapUrls,
     };
   } catch {
     return DEFAULT_ROBOTS;
@@ -60,4 +66,20 @@ export async function waitForCrawlDelay(
       { once: true },
     );
   });
+}
+
+/**
+ * Extract Sitemap: directive URLs from robots.txt text content.
+ * These point to XML sitemap files that list additional page URLs.
+ */
+function extractSitemapsFromText(text: string): string[] {
+  const urls: string[] = [];
+  for (const line of text.split("\n")) {
+    const trimmed = line.trim();
+    if (/^sitemap:/i.test(trimmed)) {
+      const url = trimmed.substring(8).trim();
+      if (url) urls.push(url);
+    }
+  }
+  return urls;
 }

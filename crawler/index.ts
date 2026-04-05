@@ -30,3 +30,6 @@ export { fetchWithPlaywright, closeBrowser } from "./playwright";
 
 export { fetchRobotsTxt, waitForCrawlDelay } from "./robots";
 export type { RobotsConfig } from "./robots";
+
+export { fetchSitemap } from "./sitemap";
+export type { SitemapResult } from "./sitemap";
