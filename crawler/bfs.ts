@@ -44,8 +44,11 @@ export async function* crawlGenerator(
   // Seed queue with sitemap URLs (discovered from robots.txt Sitemap: directives)
   if (robots) {
     const sitemapUrls = robots.getSitemaps();
+    console.log(`[SITEMAP] Found ${sitemapUrls.length} sitemap URLs`);
     for (const sitemapUrl of sitemapUrls) {
+      console.log(`[SITEMAP] Fetching: ${sitemapUrl}`);
       const sitemapResult = await fetchSitemap(sitemapUrl);
+      console.log(`[SITEMAP] Fetched ${sitemapResult.urls.length} URLs`);
       for (const url of sitemapResult.urls) {
         const normalized = normalizeUrl(url);
         if (
@@ -117,6 +120,7 @@ export async function* crawlGenerator(
 
     yield parsed;
 
+    console.log(`[CRAWL] Queue size: ${queue.length}, Visited: ${visited.size}, Queued Set: ${queued.size}`);
     for (const link of parsed.internalLinks) {
       const linkNormalized = normalizeUrl(link);
       if (!visited.has(linkNormalized) && !queued.has(linkNormalized)) {
