@@ -29,7 +29,7 @@ export function exportAsCsv(results: CrawlResult[]): string {
   const escape = (value: string | null | number | boolean): string => {
     const str = String(value ?? "");
     if (str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r")) {
-      return `"${str.replace(/"/g, '""').replace(/\r\n?/g, " ")}"`;
+      return `"${str.replace(/"/g, '""').replace(/[\r\n]+/g, " ")}"`;
     }
     return str;
   };

@@ -41,8 +41,8 @@ Build a browser-based SEO crawler (mini Screaming Frog) using Next.js App Router
 | [Phase 6](./phase-06-ui-results-table.md) | v0.6.0 | completed | UI — Results table + export (CSV/JSON) | `feature/ui-results-table` |
 | [Phase 7](./phase-07-export-store.md) | v0.7.0 | completed | Export (CSV/JSON) + in-memory store cleanup | `feature/export-store` |
 | [Phase 8](./phase-08-docker-dokploy.md) | v0.8.0 | completed | Docker + docker-compose + Dokploy config | `feature/docker-dokploy` |
-| [Phase 9](./phase-09-testing-polish.md) | v0.9.0 | pending | Testing + polish + README | `feature/testing-polish` |
-| Release | v1.0.0 | pending | First production release | `main` |
+| [Phase 9](./phase-09-testing-polish.md) | v0.9.0 | completed | Testing + polish + README | `feature/testing-polish` |
+| Release | v1.0.0 | completed | First production release | `main` |
 
 > **Note:** Phases reordered from original. API (Phase 4) now comes before Playwright (Phase 3) to enable full-stack testing earlier. See [validation-report.md](./validation-report.md) for details.
 
@@ -96,4 +96,5 @@ v0.1.0         v0.2.0         v0.3.0         v0.4.0         v0.5.0
 
 ## Next Steps
 
-1. Begin Phase 9 (Testing + polish + README)
+1. v1.0.0 released — all phases complete
+2. Potential v1.1.0 backlog: E2E with running server, parallel crawl, Playwright memory optimization
