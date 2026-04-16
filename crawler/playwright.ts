@@ -35,10 +35,11 @@ export async function fetchWithPlaywright(
   url: string,
   timeoutMs: number = 30_000,
 ): Promise<{ html: string; status: number; contentType: string } | null> {
-  const browser = await getBrowser();
+  let browser: Browser;
   let page: Page | null = null;
 
   try {
+    browser = await getBrowser();
     page = await browser.newPage();
 
     // Block non-essential resources for speed

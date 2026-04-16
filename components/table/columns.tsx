@@ -33,7 +33,14 @@ export const columns: ColumnDef<CrawlResult>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as number;
       return (
-        <Badge variant={status < 400 ? "default" : "destructive"}>
+        <Badge
+          variant="default"
+          className={
+            status < 400
+              ? "rounded-full bg-[#333333] px-3 py-1 text-sm font-semibold text-white shadow-sm"
+              : "rounded-full border border-[#c71827]/20 bg-[#c71827] px-3 py-1 text-sm font-semibold text-white shadow-sm"
+          }
+        >
           {status}
         </Badge>
       );
@@ -67,7 +74,14 @@ export const columns: ColumnDef<CrawlResult>[] = [
     cell: ({ row }) => {
       const lang = row.getValue("lang") as string | null;
       return (
-        <Badge variant={lang ? "default" : "secondary"}>
+        <Badge
+          variant="secondary"
+          className={
+            lang
+              ? "rounded-full border border-[#c71827]/20 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#333333] shadow-sm"
+              : "rounded-full border border-border bg-muted px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground"
+          }
+        >
           {lang || "—"}
         </Badge>
       );
@@ -81,7 +95,14 @@ export const columns: ColumnDef<CrawlResult>[] = [
     cell: ({ row }) => {
       const indexable = row.getValue("esIndexable") as boolean;
       return (
-        <Badge variant={indexable ? "default" : "secondary"}>
+        <Badge
+          variant="secondary"
+          className={
+            indexable
+              ? "rounded-full bg-[#c71827] px-3 py-1 text-xs font-semibold text-white shadow-sm"
+              : "rounded-full border border-border bg-white px-3 py-1 text-xs font-semibold text-[#333333] shadow-sm"
+          }
+        >
           {indexable ? "Sí" : "No"}
         </Badge>
       );

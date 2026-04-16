@@ -21,20 +21,18 @@ export default function HomePage() {
 
   return (
     <main className="relative mx-auto w-full max-w-[1600px] px-6 py-8 sm:px-8 lg:px-12 xl:px-16">
-      <section className="mb-8 w-full overflow-hidden rounded-[2rem] border border-border/60 bg-card/80 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)]">
+      <section className="mb-8 mt-6 w-full overflow-hidden rounded-[2rem] border border-border/60 bg-card/80 shadow-[0_24px_80px_-40px_rgba(199,24,39,0.25)]">
         <div className="flex flex-col gap-6 px-6 py-7 sm:px-8 lg:px-10 xl:px-12">
           <div className="w-full space-y-5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-primary">
-              <Search className="h-3.5 w-3.5" />
-              Screaming Web
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+                <Search className="h-3.5 w-3.5" />
+                Screaming Web
+              </div>
             </div>
             <div className="space-y-4">
-              <h1 className="w-full max-w-none text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-[4rem] xl:text-[4.75rem]">
-                SEO crawling profesional para webs{" "}
-                <span className="lg:block">multidioma</span>
-              </h1>
               <p className="max-w-5xl text-sm leading-6 text-muted-foreground sm:text-base lg:whitespace-nowrap">
-                Descubre URLs internas, segmenta por idioma o sección y sigue el rastreo en tiempo real con una interfaz más clara y moderna.
+                Descubre URLs internas, segmenta por idioma o sección y sigue el rastreo en tiempo real con una interfaz corporativa clara y moderna.
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
                 <Badge variant="secondary" className="rounded-full px-3 py-1.5 text-[0.72rem] uppercase tracking-[0.18em]">
@@ -81,7 +79,12 @@ export default function HomePage() {
             status={state.status as "connecting" | "crawling" | "completed" | "stopped" | "error"}
           />
           <div className="flex gap-2">
-            <Button type="button" onClick={reset} size="lg">
+            <Button
+              type="button"
+              onClick={reset}
+              size="lg"
+              className="rounded-full !bg-[#c71827] px-5 font-semibold text-white shadow-[0_14px_30px_-12px_rgba(199,24,39,0.45)] hover:!bg-[#ab1320]"
+            >
               Nuevo rastreo
             </Button>
           </div>

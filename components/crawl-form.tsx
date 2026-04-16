@@ -114,7 +114,7 @@ export function CrawlForm({
         <Button
           type="submit"
           disabled={disabled || !url.trim()}
-          className="h-11 w-full rounded-xl text-sm font-medium shadow-lg shadow-primary/15 transition-transform hover:-translate-y-0.5"
+          className="h-12 w-full rounded-full !bg-[#c71827] px-6 text-sm font-semibold uppercase tracking-[0.12em] !text-white shadow-[0_14px_30px_-12px_rgba(199,24,39,0.55)] transition-all duration-200 hover:-translate-y-0.5 hover:!bg-[#ab1320] focus-visible:!ring-[#c71827]/30"
         >
           {disabled ? "Rastreando..." : "Iniciar rastreo"}
         </Button>
